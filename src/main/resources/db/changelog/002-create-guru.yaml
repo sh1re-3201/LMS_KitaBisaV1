@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: guru
+      changes:
+        - createTable:
+            tableName: guru
+            columns:
+              - column:
+                  name: id_user
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nip
+                  type: varchar(30)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+              - column:
+                  name: alamat
+                  type: text
+              - column:
+                  name: nama_lengkap
+                  type: varchar(200)
+        - addForeignKeyConstraint:
+            baseTableName: guru
+            baseColumnNames: id_user
+            constraintName: fk_nip_guru
+            referencedTableName: user
+            referencedColumnNames: id_user

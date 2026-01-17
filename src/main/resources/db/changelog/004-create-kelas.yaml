@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: kelas
+      changes:
+        - createTable:
+            tableName: kelas
+            columns:
+              - column:
+                  name: id_kelas
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nama_kelas
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_wali_kelas
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: kelas
+            baseColumnNames: id_wali_kelas
+            constraintName: fk_nip_wali_kelas
+            referencedTableName: guru
+            referencedColumnNames: id_user

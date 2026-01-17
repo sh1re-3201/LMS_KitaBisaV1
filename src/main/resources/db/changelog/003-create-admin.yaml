@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: admin
+      changes:
+        - createTable:
+            tableName: admin
+            columns:
+              - column:
+                  name: id_user
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: kode_admin
+                  type: varchar(30)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+              - column:
+                  name: nama_lengkap
+                  type: varchar(200)
+        - addForeignKeyConstraint:
+            baseTableName: admin
+            baseColumnNames: id_user
+            constraintName: fk_id_admin
+            referencedTableName: user
+            referencedColumnNames: id_user

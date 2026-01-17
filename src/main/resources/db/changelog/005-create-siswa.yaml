@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: siswa
+      changes:
+        - createTable:
+            tableName: siswa
+            columns:
+              - column:
+                  name: id_user
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nisn
+                  type: varchar(30)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(100)
+              - column:
+                  name: alamat
+                  type: text
+              - column:
+                  name: id_kelas
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nama_lengkap
+                  type: varchar(200)
+        - addForeignKeyConstraint:
+            baseTableName: siswa
+            baseColumnNames: id_user
+            constraintName: fk_nisn
+            referencedTableName: user
+            referencedColumnNames: id_user
+        - addForeignKeyConstraint:
+            baseTableName: siswa
+            baseColumnNames: id_kelas
+            constraintName: fk_id_kelas_siswa
+            referencedTableName: kelas
+            referencedColumnNames: id_kelas
