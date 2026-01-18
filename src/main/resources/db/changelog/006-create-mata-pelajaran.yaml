@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: mata_pelajaran
+      changes:
+        - createTable:
+            tableName: mata_pelajaran
+            columns:
+              - column:
+                  name: id_mapel
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nama_mapel
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_guru
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_kelas
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: mata_pelajaran
+            baseColumnNames: id_guru
+            constraintName: fk_id_guru_mapel
+            referencedTableName: guru
+            referencedColumnNames: id_user
+        - addForeignKeyConstraint:
+            baseTableName: mata_pelajaran
+            baseColumnNames: id_kelas
+            constraintName: fk_id_kelas_mapel
+            referencedTableName: kelas
+            referencedColumnNames: id_kelas

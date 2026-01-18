@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: 9
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: quiz
+      changes:
+        - createTable:
+            tableName: quiz
+            columns:
+              - column:
+                  name: id_quiz
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_mapel
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: judul
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_nilai
+                  type: decimal(8,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: waktu_mulai
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: waktu_selesai
+                  type: datetime
+                  constraints:
+                    nullable: false
+              - column:
+                  name: durasi_menit
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: max_attempts
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: scoring_policy
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: quiz
+            baseColumnNames: id_mapel
+            constraintName: fk_id_mapel_quiz
+            referencedTableName: mata_pelajaran
+            referencedColumnNames: id_mapel
+            onDelete: cascade

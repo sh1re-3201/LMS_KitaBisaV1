@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 10
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: quiz_question
+      changes:
+        - createTable:
+            tableName: quiz_question
+            columns:
+              - column:
+                  name: id_question
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_quiz
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question_text
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question_type
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: bobot_soal
+                  type: decimal(5,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_auto_graded
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: question_order
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: question_quiz
+            baseColumnNames: id_quiz
+            constraintName: fk_id_quiz_question
+            referencedTableName: quiz
+            referencedColumnNames: id_quiz
+            onDelete: cascade

@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: presensi_detail
+      changes:
+        - createTable:
+            tableName: presensi_detail
+            columns:
+              - column:
+                  name: id_presensi_detail
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_presensi_header
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_siswa
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status_kehadiran
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: waktu_presensi
+                  type: datetime
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_presensi_header_siswa
+            tableName: presensi_detail
+            columnNames: id_presensi_header, id_siswa
+        - addForeignKeyConstraint:
+            baseTableName: presensi_detail
+            baseColumnNames: id_presensi_header
+            constraintName: fk_id_presensi_header_detail
+            referencedTableName: presensi_header
+            referencedColumnNames: id_presensi_header
+            onDelete: cascade
+        - addForeignKeyConstraint:
+            baseTableName: presensi_detail
+            baseColumnNames: id_siswa
+            constraintName: fk_id_siswa_presensi_detail
+            referencedTableName: siswa
+            referencedColumnNames: id_siswa
+            onDelete: cascade
