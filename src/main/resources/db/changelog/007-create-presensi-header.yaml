@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: presensi_header
+      changes:
+        - createTable:
+            tableName: presensi_header
+            columns:
+              - column:
+                  name: id_presensi_header
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_mapel
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tanggal_presensi
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: jam_mulai
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: jam_selesai
+                  type: time
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status_open
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: presensi_header
+            baseColumnNames: id_mapel
+            constraintName: fk_id_mapel_presensi
+            referencedTableName: mata_pelajaran
+            referencedColumnNames: id_mapel
+            onDelete: cascade
+        - addForeignKeyConstraint:
+            baseTableName: presensi_header
+            baseColumnNames: created_by
+            constraintName: fk_id_guru_created_by_presensi
+            referencedTableName: guru
+            referencedColumnNames: id_user
+            onDelete: restrict
