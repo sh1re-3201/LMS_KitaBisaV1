@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: 13
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: quiz_answer
+      changes:
+        - createTable:
+            tableName: quiz_answer
+            changes:
+              - createTable:
+                  tableName: quiz_answer
+                  columns:
+                    - column:
+                        name: id_answer
+                        type: bigint
+                        autoIncrement: true
+                        constraints:
+                          primaryKey: true
+                          nullable: false
+
+                    - column:
+                        name: id_attempt
+                        type: bigint
+                        constraints:
+                          nullable: false
+
+                    - column:
+                        name: id_question
+                        type: bigint
+                        constraints:
+                          nullable: false
+
+                    - column:
+                        name: answer_text
+                        type: text
+
+                    - column:
+                        name: score
+                        type: decimal(5,2)
+
+                    - column:
+                        name: is_graded
+                        type: boolean
+                        constraints:
+                          nullable: false
+
+                    - column:
+                        name: graded_by
+                        type: bigint
+
+                    - column:
+                        name: graded_at
+                        type: datetime
+
+              - addUniqueConstraint:
+                  constraintName: uq_attempt_question
+                  tableName: quiz_answer
+                  columnNames: id_attempt, id_question
+
+              - addForeignKeyConstraint:
+                  baseTableName: quiz_answer
+                  baseColumnNames: id_attempt
+                  constraintName: fk_answer_attempt
+                  referencedTableName: quiz_attempt
+                  referencedColumnNames: id_attempt
+                  onDelete: CASCADE
+
+              - addForeignKeyConstraint:
+                  baseTableName: quiz_answer
+                  baseColumnNames: id_question
+                  constraintName: fk_answer_question
+                  referencedTableName: quiz_question
+                  referencedColumnNames: id_question
+                  onDelete: CASCADE
+
+              - addForeignKeyConstraint:
+                  baseTableName: quiz_answer
+                  baseColumnNames: graded_by
+                  constraintName: fk_answer_graded_by
+                  referencedTableName: guru
+                  referencedColumnNames: id_user
+                  onDelete: SET NULL

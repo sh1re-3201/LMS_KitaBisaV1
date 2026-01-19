@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: 14
+      author: anugrah
+      preConditions:
+        - tableExists:
+            tableName: quiz_answer_option
+      changes:
+        - createTable:
+            tableName: quiz_answer_option
+            columns:
+              - column:
+                  name: id_answer_option
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: id_answer
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: id_option
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: fk_answer_option_answer
+            baseTableName: quiz_answer_option
+            baseColumnNames: id_answer
+            referencedTableName: quiz_answer
+            referencedColumnNames: id_answer
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            constraintName: fk_answer_option_option
+            baseTableName: quiz_answer_option
+            baseColumnNames: id_option
+            referencedTableName: quiz_option
+            referencedColumnNames: id_option
+            onDelete: CASCADE

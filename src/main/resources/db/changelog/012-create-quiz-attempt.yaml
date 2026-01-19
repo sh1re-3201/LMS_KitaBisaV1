@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12
+      author: anugrah
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          tableExists:
+            tableName: quiz_attempt
+      changes:
+        - createTable:
+            tableName: quiz_attempt
+            columns:
+              - column:
+                  name: id_attempt
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+
+              - column:
+                  name: id_quiz
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: id_siswa
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: attempt_number
+                  type: int
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: start_time
+                  type: datetime
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_time
+                  type: datetime
+
+              - column:
+                  name: total_score
+                  type: decimal(6,2)
+
+              - column:
+                  name: status
+                  type: varchar(30)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: is_final
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            constraintName: uq_quiz_attempt
+            tableName: quiz_attempt
+            columnNames: id_quiz, id_siswa, attempt_number
+
+        - addForeignKeyConstraint:
+            baseTableName: quiz_attempt
+            baseColumnNames: id_quiz
+            constraintName: fk_attempt_quiz
+            referencedTableName: quiz
+            referencedColumnNames: id_quiz
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: quiz_attempt
+            baseColumnNames: id_siswa
+            constraintName: fk_attempt_siswa
+            referencedTableName: siswa
+            referencedColumnNames: id_user
+            onDelete: CASCADE
