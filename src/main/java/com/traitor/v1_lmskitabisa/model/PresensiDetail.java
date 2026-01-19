@@ -26,7 +26,7 @@ public class PresensiDetail {
     private Long id_presensi_detail;
 
     @ManyToOne
-    @Column(unique = true, nullable = false)
+    @JoinColumn(unique = true, nullable = false)
     private PresensiHeader id_presensi_header;
 
     @ManyToOne
