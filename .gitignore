@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### spring ###
-.application.propertiesdexscf
+.application.properties
