@@ -33,4 +33,7 @@ build/
 .vscode/
 
 ### spring ###
-./src/main/resources/application.properties
+# Ignore application.properties in this module
+src/main/resources/application.properties
+**/src/main/resources/application.properties
+
