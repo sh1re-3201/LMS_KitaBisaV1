@@ -3,8 +3,10 @@ databaseChangeLog:
       id: 14
       author: anugrah
       preConditions:
-        - tableExists:
-            tableName: quiz_answer_option
+        - onFail: MARK_RAN
+        - not:
+          - tableExists:
+              tableName: quiz_answer_option
       changes:
         - createTable:
             tableName: quiz_answer_option
